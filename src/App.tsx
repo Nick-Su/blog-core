@@ -1,25 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, ReactElement } from 'react';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from 'react-router-dom';
+import { isUserAuthenticated } from './services/utils/Auth';
+import userSessionStore from './services/stores/userSessionStore';
+import PostsOverview from './pages/post-overview/PostsOverview';
+import Post from './components/posts/post/Post';
+import Main from './pages/main/Main';
+import Login from './pages/login/Login';
+import Signup from './pages/signup/Signup';
+import CreatePost from './pages/create-post/CreatePost';
+
 import './App.css';
 
-function App() {
+const App: React.FC = (): ReactElement => {
+  useEffect(() => {
+    if (isUserAuthenticated()) {
+      userSessionStore.setIsLoggedIn(true)
+    }
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/posts" element={<PostsOverview />} />
+          <Route path="/posts/:postId" element={<Post />} />
+          <Route path="/posts/create" element={<CreatePost />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

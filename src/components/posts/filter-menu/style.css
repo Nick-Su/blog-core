@@ -1,0 +1,11 @@
+.filter-sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    border: 1px solid grey;
+    margin: 4em;
+    padding: 2em;
+    height: auto;
+    max-height: 140px;
+}
